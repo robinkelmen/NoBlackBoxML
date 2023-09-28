@@ -1,16 +1,12 @@
-const featureFunctions = {};
+const featureFunctions={};
 
-
-
-featureFunctions.getPathCount = (paths) =>{
-
-
-    return paths.length;
+featureFunctions.getPathCount=(paths)=>{
+   return paths.length;
 }
 
-featureFunctions.getPointCount = (paths) =>{
-    const points = paths.flat();
-    return points.length;
+featureFunctions.getPointCount=(paths)=>{
+   const points=paths.flat();
+   return points.length;
 }
 
 featureFunctions.getWidth=(paths)=>{
@@ -36,7 +32,6 @@ featureFunctions.inUse=[
    {name:"Height",function:featureFunctions.getHeight}
 ];
 
-
-if (typeof module !== 'undefined'){
-    module.exports = featureFunctions;
+if(typeof module!=='undefined'){
+   module.exports=featureFunctions;
 }

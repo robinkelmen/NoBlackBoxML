@@ -1,52 +1,42 @@
+function createRow(container,participantName,samples){
+   const row=document.createElement("div");
+   row.classList.add("row");
+   container.appendChild(row);
 
+   const rowLabel=document.createElement("div");
+   rowLabel.innerHTML=participantName;
+   rowLabel.classList.add("rowLabel");
+   row.appendChild(rowLabel);
 
-const createRow  = (container, participantName, samples) =>{
-    const row = document.createElement("div");
-    row.classList.add("row");
+   for(let sample of samples){
+      const {id,label, correct}=sample;
 
-    container.appendChild(row);
+      const sampleContainer=document.createElement("div");
+      sampleContainer.id="sample_"+id;
+      sampleContainer.onclick=()=>
+         handleClick(sample,false);
+      sampleContainer.classList.add("sampleContainer");
 
+      if(correct){
+         sampleContainer.style.backgroundColor = "lightgreen";
+      }
 
-    const rowLabel = document.createElement("div");
-    rowLabel.innerHTML = participantName;
-    rowLabel.classList.add("rowLabel");
-    row.appendChild(rowLabel);
+      const sampleLabel=document.createElement("div");
+      sampleLabel.innerHTML=label;
+      sampleContainer.appendChild(sampleLabel);
 
+      const img=document.createElement('img');
+      img.setAttribute("loading","lazy");
+      img.src=constants.IMG_DIR+'/'+id+'.png';
+      img.classList.add("thumb");
+     
+      sampleContainer.appendChild(img);
 
-    for (let sample of samples){
-        const {id,label} = sample;
-        
-
-        const sampleContainer = document.createElement("div");
-        sampleContainer.id = "sample_" + id;
-        sampleContainer.classList.add("sampleContainer");
-
-        const sampleLabel = document.createElement("div");
-        sampleLabel.innerHTML = label;
-        sampleContainer.appendChild(sampleLabel);
-
-
-        const img=document.createElement('img');
-        img.setAttribute("loading","lazy");
-        img.src=constants.IMG_DIR+'/'+id+'.png';
-        img.classList.add("thumb");
-        sampleContainer.appendChild(img);
-        row.appendChild(sampleContainer);
-    }
+      row.appendChild(sampleContainer);
+   }
 }
 
-const toggleInput = () =>
-{
-    if(inputContainer.style.display == "none"){
-        inputContainer.style.display = "block";
-        SketchPad.triggerUpdate();
-    }else{
-        inputContainer.style.display = "none";
-        chart.hideDynamicPoint();
-    }
-}
-
-const handleClick = (sample,doScroll=true) =>{
+function handleClick(sample,doScroll=true){
    if(sample==null){
       [...document.querySelectorAll('.emphasize')].
          forEach((e)=>e.classList.remove('emphasize'));
@@ -70,4 +60,14 @@ const handleClick = (sample,doScroll=true) =>{
       });
    }
    chart.selectSample(sample);
+}
+
+function toggleInput(){
+   if(inputContainer.style.display=="none"){
+      inputContainer.style.display="block";
+      sketchPad.triggerUpdate();
+   }else{
+      inputContainer.style.display="none";
+      chart.hideDynamicPoint();
+   }
 }
